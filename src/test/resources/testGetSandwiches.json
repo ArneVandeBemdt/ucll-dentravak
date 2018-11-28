@@ -1,0 +1,20 @@
+[
+  {
+    "id": "${json-unit.ignore}",
+    "name": "Americain",
+    "ingredients": "Vlees",
+    "price": 4.00
+  },
+  {
+    "id": "${json-unit.ignore}",
+    "name": "bob",
+    "ingredients": "lekker",
+    "price": 3.00
+  },
+  {
+    "id": "${json-unit.ignore}",
+    "name": "Americain",
+    "ingredients": "Vlees",
+    "price": 4.00
+  }
+]

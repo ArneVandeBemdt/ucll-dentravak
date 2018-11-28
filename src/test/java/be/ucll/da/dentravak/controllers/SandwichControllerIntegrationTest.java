@@ -3,7 +3,6 @@ package be.ucll.da.dentravak.controllers;
 import be.ucll.da.dentravak.Application;
 import be.ucll.da.dentravak.model.Sandwich;
 import be.ucll.da.dentravak.repositories.SandwichRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.junit.Before;
@@ -16,7 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import static be.ucll.da.dentravak.model.SandwichTestBuilder.aSandwich;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;

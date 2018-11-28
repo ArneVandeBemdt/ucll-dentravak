@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,6 +17,25 @@ public class SandwichController {
 
     public SandwichController(SandwichRepository repository) {
         this.repository = repository;
+
+        Sandwich s1 = new Sandwich();
+        s1.setName("Smos kaas & hesp");
+        s1.setIngredients("Sla, tomatte, kaas, hesp, mayo");
+        s1.setPrice(new BigDecimal("2.60"));
+
+        Sandwich s2 = new Sandwich();
+        s2.setName("Broodje american");
+        s2.setIngredients("Uitjes, americain");
+        s2.setPrice(new BigDecimal("2.30"));
+
+        Sandwich s3 = new Sandwich();
+        s3.setName("Kip hawaii");
+        s3.setIngredients("Kippenblokjes, ananas, tuinkers, cocktailsaus");
+        s3.setPrice(new BigDecimal("3.0"));
+
+        repository.save(s1);
+        repository.save(s2);
+        repository.save(s3);
     }
 
     @RequestMapping("/sandwiches")

@@ -1,18 +1,20 @@
 [
   {
-    "id":"${json-unit.ignore}",
-    "sandwichId":"${json-unit.ignore}",
-    "name":"Americain",
-    "breadType":"BOTERHAMMEKES",
-    "creationDate":"${json-unit.ignore}",
-    "price":3.50,"mobilePhoneNumber":"0487/123456"
+    "id": "${json-unit.ignore}",
+    "sandwichId": "${json-unit.ignore}",
+    "name": "Americain",
+    "breadType": "BOTERHAMMEKES",
+    "creationDate": "${json-unit.ignore}",
+    "price": 3.50,
+    "mobilePhoneNumber": "0487/123456"
   },
   {
-    "id":"${json-unit.ignore}",
-    "sandwichId":"${json-unit.ignore}",
-    "name":"Americain",
-    "breadType":"WRAP",
-    "creationDate":"${json-unit.ignore}",
-    "price":3.50,"mobilePhoneNumber":"0490 11 22 33"
+    "id": "${json-unit.ignore}",
+    "sandwichId": "${json-unit.ignore}",
+    "name": "Americain",
+    "breadType": "WRAP",
+    "creationDate": "${json-unit.ignore}",
+    "price": 3.50,
+    "mobilePhoneNumber": "0490 11 22 33"
   }
 ]

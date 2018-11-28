@@ -22,12 +22,10 @@ import java.nio.file.Paths;
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class AbstractControllerIntegrationTest {
 
+    TestRestTemplate restTemplate;
+    HttpHeaders headers;
     @LocalServerPort
     private int port;
-
-    TestRestTemplate restTemplate;
-
-    HttpHeaders headers;
 
     public AbstractControllerIntegrationTest() {
         this.headers = new HttpHeaders();
@@ -78,7 +76,7 @@ public abstract class AbstractControllerIntegrationTest {
     }
 
     private String createURLWithPort(String uri) {
-        if(uri.startsWith("http")) return uri;
+        if (uri.startsWith("http")) return uri;
         return "http://localhost:" + port + uri;
     }
 

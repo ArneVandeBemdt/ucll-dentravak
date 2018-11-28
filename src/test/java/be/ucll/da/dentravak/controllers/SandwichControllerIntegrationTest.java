@@ -3,6 +3,7 @@ package be.ucll.da.dentravak.controllers;
 import be.ucll.da.dentravak.Application;
 import be.ucll.da.dentravak.model.Sandwich;
 import be.ucll.da.dentravak.repositories.SandwichRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.junit.Before;
@@ -14,6 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.UUID;
 
 import static be.ucll.da.dentravak.model.SandwichTestBuilder.aSandwich;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
@@ -63,7 +66,19 @@ public class SandwichControllerIntegrationTest extends AbstractControllerIntegra
     }
 
     @Test
-    public void testGetSandwiches_WithSavedSandwiches_ListWithSavedSandwich() throws JSONException {
-        throw new RuntimeException("Implement this test and then the production code");
+    public void testGetSandwiches_WithSavedSandwiches_ListWithSavedSandwich() {
+        ArrayList<Sandwich> sandwiches = new ArrayList<>();
+        sandwiches.add(aSandwich().withName("Americain").withIngredients("Vlees").withPrice(4.0).build());
+        sandwiches.add(aSandwich().withName("bob").withIngredients("lekker").withPrice(3.0).build());
+        sandwiches.add(aSandwich().withName("Americain").withIngredients("Vlees").withPrice(4.0).build());
+
+        for (Sandwich sandwich : sandwiches) {
+            httpPost("/sandwiches", sandwich);
+        }
+
+        String actualSandwiches = httpGet("/sandwiches");
+        String expectedSandwiches = jsonTestFile("testGetSandwiches.json");
+
+        assertThatJson(actualSandwiches).isEqualTo(expectedSandwiches);
     }
 }

@@ -3,6 +3,7 @@ package be.ucll.da.dentravak.controllers;
 import be.ucll.da.dentravak.Application;
 import be.ucll.da.dentravak.model.Sandwich;
 import be.ucll.da.dentravak.repositories.SandwichRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 import static be.ucll.da.dentravak.model.SandwichTestBuilder.aSandwich;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
@@ -45,8 +49,17 @@ public class SandwichControllerIntegrationTest extends AbstractControllerIntegra
     }
 
     @Test
-    public void testPutSandwich() throws JSONException {
-        throw new RuntimeException("Implement this test and then the production code");
+    public void testPutSandwich() throws JSONException, IOException {
+        Sandwich sandwich = aSandwich().withName("Americain").withIngredients("Vlees").withPrice(4.0).build();
+        String actualSandwichAsJson = httpPost("/sandwiches", sandwich);
+
+        Sandwich updatedSandwich = new ObjectMapper().readValue(actualSandwichAsJson, Sandwich.class);
+        updatedSandwich.setPrice(new BigDecimal("42"));
+
+        String result = httpPut("/sandwiches/" + updatedSandwich.getId(), updatedSandwich);
+        String expected = "{\"id\":\"" + updatedSandwich.getId() + "\",\"name\":\"Americain\",\"ingredients\":\"Vlees\",\"price\":42}";
+
+        assertThatJson(result).isEqualTo(expected);
     }
 
     @Test

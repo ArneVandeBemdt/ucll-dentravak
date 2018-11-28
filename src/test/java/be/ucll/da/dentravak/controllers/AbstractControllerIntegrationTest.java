@@ -14,6 +14,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class AbstractControllerIntegrationTest {
@@ -76,5 +80,13 @@ public abstract class AbstractControllerIntegrationTest {
     private String createURLWithPort(String uri) {
         if(uri.startsWith("http")) return uri;
         return "http://localhost:" + port + uri;
+    }
+
+    protected String jsonTestFile(String fileName) {
+        try {
+            return new String(Files.readAllBytes(Paths.get("src/test/resources/" + fileName)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

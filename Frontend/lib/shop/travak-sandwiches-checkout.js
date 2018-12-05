@@ -27,7 +27,6 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
             mobilePhoneNumber: this.byId('mobile-phone-number').value
         };
 
-        //todo: call backend via fetch api
         fetch('http://localhost:8080/orders', {
             method: 'POST',
             body: JSON.stringify(sandwichOrder),
@@ -38,6 +37,7 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
         .then(response => console.log('Succes: ', response))
         .catch(error => console.error('Error: ', error));
 
+        // TODO handle error if POST is unsuccessful
         this.app().dispatchEvent(new CustomEvent('order-succeeded', {detail: this.sandwich}));
     }
 

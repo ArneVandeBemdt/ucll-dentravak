@@ -20,6 +20,16 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
 
     orderSandwich() {
         //todo: call backend via fetch api
+        fetch('http://localhost:8080/orders', {
+            method: 'POST',
+            body: JSON.stringify(this.sandwich),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(sandwich => sandwich.json())
+        .then(sandwich => console.log('Succes: ', sandwich))
+        .catch(error => console.error('Error: ', error));
+
         this.app().dispatchEvent(new CustomEvent('order-succeeded', {detail: this.sandwich}));
     }
 
@@ -90,7 +100,7 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
                     <p class="list-group-item-text">${sandwich.ingredients}</p>
                 </div>
                 <div class="dt-sandwich-info">
-                    <p class="list-group-item-text">${sandwich.price}</p>
+                    <p class="list-group-item-text">€ ${sandwich.price}</p>
                 </div>
             </a>
         `;

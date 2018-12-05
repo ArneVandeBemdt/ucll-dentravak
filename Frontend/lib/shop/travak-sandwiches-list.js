@@ -48,7 +48,7 @@ class DenTravakSandwichesList extends DenTravakAbstractElement {
                     <p class="list-group-item-text">${sandwich.ingredients}</p>
                 </div>
                 <div class="dt-sandwich-info">
-                    <p class="list-group-item-text">${sandwich.price}</p>
+                    <p class="list-group-item-text">€ ${sandwich.price}</p>
                 </div>
             </a>
         `;

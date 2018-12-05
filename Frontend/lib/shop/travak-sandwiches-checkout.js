@@ -19,6 +19,10 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
     }
 
     orderSandwich() {
+        sandwichOrder.mobilePhoneNumber = this.byId('mobile-phone-number').value;
+        sandwichOrder.sandwichId = this.sandwich.id;
+        sandwichOrder.breadType = ...;
+
         //todo: call backend via fetch api
         fetch('http://localhost:8080/orders', {
             method: 'POST',
@@ -26,8 +30,8 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(sandwich => sandwich.json())
-        .then(sandwich => console.log('Succes: ', sandwich))
+        }).then(res => res.json())
+        .then(response => console.log('Succes: ', response))
         .catch(error => console.error('Error: ', error));
 
         this.app().dispatchEvent(new CustomEvent('order-succeeded', {detail: this.sandwich}));

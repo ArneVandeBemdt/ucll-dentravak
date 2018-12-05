@@ -19,14 +19,18 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
     }
 
     orderSandwich() {
-        sandwichOrder.mobilePhoneNumber = this.byId('mobile-phone-number').value;
-        sandwichOrder.sandwichId = this.sandwich.id;
-        sandwichOrder.breadType = ...;
+        let sandwichOrder = {
+            sandwichId: this.sandwich.id,
+            name: this.sandwich.name,
+            breadType: this.byCss('input[name="typeBrood"]:checked').value,
+            price: this.sandwich.price,
+            mobilePhoneNumber: this.byId('mobile-phone-number').value
+        };
 
         //todo: call backend via fetch api
         fetch('http://localhost:8080/orders', {
             method: 'POST',
-            body: JSON.stringify(this.sandwich),
+            body: JSON.stringify(sandwichOrder),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -65,19 +69,19 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
                 <div class="form-group">
                     <label for="typeBrood"><h4>Kies het type brood</h4></label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="typeBrood" id="radioBoterhammekes" value="option1">
+                        <input class="form-check-input" type="radio" name="typeBrood" id="radioBoterhammekes" value="BOTERHAMMEKES">
                         <label class="form-check-label" for="radioBoterhammekes">
                             Boterhammekes
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="typeBrood" id="radioWrap" value="option2">
+                        <input class="form-check-input" type="radio" name="typeBrood" id="radioWrap" value="WRAP">
                         <label class="form-check-label" for="radioWrap">
                             Wrap
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="typeBrood" id="radioTurksBrood" value="option3">
+                        <input class="form-check-input" type="radio" name="typeBrood" id="radioTurksBrood" value="TURKS_BROOD">
                         <label class="form-check-label" for="radioTurksBrood">
                             Turks brood
                         </label>

@@ -70,3 +70,5 @@ fabric.properties
 .idea
 out
 gradlew.bat
+build/
+data/

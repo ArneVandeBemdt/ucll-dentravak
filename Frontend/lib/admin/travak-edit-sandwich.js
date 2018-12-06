@@ -18,12 +18,42 @@ class DenTravakEditSandwich extends DenTravakAbstractElement {
     }
 
     saveSandwich() {
-        //todo: call backend via fetch api and save sandwich
-        this.app().dispatchEvent(new CustomEvent('save-succeeded', {detail: this.sandwich}));
+        if (Object.is(this.sandwich.id, undefined)) {
+            this.sandwich.name = this.byId('name').value;
+            this.sandwich.ingredients = this.byId('ingredients').value;
+            this.sandwich.price = this.byId('price').value;
+
+            fetch('http://localhost:8080/sandwiches', {
+                method: 'POST',
+                body: JSON.stringify(this.sandwich),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+                .then(response => console.log('Succes: ', response))
+                .catch(error => console.error('Error: ', error));
+        } else {
+            this.sandwich.name = this.byId('name').value;
+            this.sandwich.ingredients = this.byId('ingredients').value;
+            this.sandwich.price = this.byId('price').value;
+
+            console.log("PUT")
+
+            fetch('http://localhost:8080/sandwiches/' + this.sandwich.id, {
+                method: 'PUT',
+                body: JSON.stringify(this.sandwich),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+                .then(response => console.log('Succes: ', response))
+                .catch(error => console.error('Error: ', error));
+        }
+        this.app().dispatchEvent(new CustomEvent('save-succeeded', { detail: this.sandwich }));
     }
 
     init(sandwich) {
-        if(sandwich) {
+        if (sandwich) {
             this.sandwich = sandwich;
             this.byId('title').innerHTML = `Bewerk broodje ${sandwich.name}`;
             this.byId('name').value = sandwich.name;

@@ -68,6 +68,5 @@ fabric.properties
 
 #just to be sure
 .idea
-gradle
 out
 gradlew.bat

@@ -17,7 +17,6 @@ class DenTravakAdminApp extends DenTravakAbstractElement {
         this.addEventListener('new-sandwich', (e) => this.showEditSandwich());
         this.addEventListener('save-succeeded', (e) => {
             $(this.byId('save-succeeded-snackbar')).snackbar("show");
-            
             this.showSandwichList();
         });
 

@@ -8,15 +8,22 @@ class DenTravakSandwichesList extends DenTravakAbstractElement {
 
     connectedCallback() {
         super.connectedCallback();
-        fetch('http://localhost:8080/sandwiches')
-            .then(resp => resp.json())
-            .then(json => this.updateSandwichesList(json));
+        this.getSandwiches();
         this.initEventListeners();
     }
 
     initEventListeners() {
-        this.byId('new-sandwich-btn').addEventListener('click', () => this.app().showEditSandwich())
-        this.byId('show-orders-btn').addEventListener('click', () => this.app().showOrderList())
+        this.byId('new-sandwich-btn').addEventListener('click', () => this.app().showEditSandwich());
+        this.byId('show-orders-btn').addEventListener('click', () => this.app().showOrderList());
+        this.app().addEventListener('save-succeeded', (e) => {
+            this.getSandwiches();
+        });
+    }
+
+    getSandwiches() {
+        fetch('http://localhost:8080/sandwiches')
+            .then(resp => resp.json())
+            .then(json => this.updateSandwichesList(json));
     }
 
     updateSandwichesList(sandwiches) {
@@ -24,7 +31,7 @@ class DenTravakSandwichesList extends DenTravakAbstractElement {
         sandwichesList.innerHTML = ``;
         sandwiches.forEach(sandwich => {
             let sandwichEl = htmlToElement(this.getSandwichTemplate(sandwich));
-            sandwichEl.addEventListener('click', () => this.app().dispatchEvent(new CustomEvent('edit-sandwich', {detail: sandwich})));
+            sandwichEl.addEventListener('click', () => this.app().dispatchEvent(new CustomEvent('edit-sandwich', { detail: sandwich })));
             sandwichesList.appendChild(sandwichEl);
         });
     }

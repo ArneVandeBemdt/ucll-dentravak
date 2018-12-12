@@ -1,6 +1,7 @@
 package be.ucll.da.dentravak.controllers;
 
 import be.ucll.da.dentravak.model.Sandwich;
+import be.ucll.da.dentravak.model.SandwichPreference;
 import be.ucll.da.dentravak.model.SandwichPreferences;
 import be.ucll.da.dentravak.repositories.SandwichRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,9 @@ import javax.naming.ServiceUnavailableException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @CrossOrigin
@@ -56,15 +57,25 @@ public class SandwichController {
     @RequestMapping("/sandwiches")
     public Iterable<Sandwich> sandwiches() {
         try {
-            SandwichPreferences preferences = getPreferences("03koffie");
-            //TODO: sort allSandwiches by float in preferences
-            Iterable<Sandwich> allSandwiches = repository.findAll();
-//            List<Sandwich>
-            
-            return allSandwiches;
-        } catch (ServiceUnavailableException e) {
+            return getSandwichesSortedByRecommendations();
+        } catch (Exception e) {
             return repository.findAll();
         }
+    }
+
+    List<Sandwich> getSandwichesSortedByRecommendations() throws ServiceUnavailableException {
+        SandwichPreferences preferences = getPreferences("03koffie");
+        List<Sandwich> sandwiches = toList(repository.findAll());
+        Collections.sort(sandwiches, compareByRating(preferences));
+        return sandwiches;
+    }
+
+    private Comparator<Sandwich> compareByRating(SandwichPreferences preferences) {
+        return (Sandwich sandwichA, Sandwich sandwichB) -> rating(preferences, sandwichB).compareTo(rating(preferences, sandwichA));
+    }
+
+    private Float rating(SandwichPreferences preferences, Sandwich sandwich) {
+        return preferences.getRatingForSandwich(sandwich.getId());
     }
 
     @RequestMapping(value = "/sandwiches", method = RequestMethod.POST)
@@ -105,6 +116,11 @@ public class SandwichController {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static <T> List<T> toList(final Iterable<T> iterable) {
+        return StreamSupport.stream(iterable.spliterator(), false)
+                .collect(Collectors.toList());
     }
 
 //    public Optional<URI> recommendationServiceUrl() {

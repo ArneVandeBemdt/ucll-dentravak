@@ -38,6 +38,8 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile ('net.javacrumbs.json-unit:json-unit:2.0.3')
     testCompile ('net.javacrumbs.json-unit:json-unit-assertj:2.0.3')
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.23.4'
+
 }
 
 jib {

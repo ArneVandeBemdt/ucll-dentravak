@@ -1,12 +1,20 @@
 package be.ucll.da.dentravak.controllers;
 
 import be.ucll.da.dentravak.model.Sandwich;
+import be.ucll.da.dentravak.model.SandwichPreferences;
 import be.ucll.da.dentravak.repositories.SandwichRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
+import javax.naming.ServiceUnavailableException;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,6 +23,12 @@ import java.util.UUID;
 public class SandwichController {
 
     private SandwichRepository repository;
+
+    //@Autowired
+    //private DiscoveryClient discoveryClient;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     public SandwichController(SandwichRepository repository) {
         this.repository = repository;
@@ -41,7 +55,16 @@ public class SandwichController {
 
     @RequestMapping("/sandwiches")
     public Iterable<Sandwich> sandwiches() {
-        return repository.findAll();
+        try {
+            SandwichPreferences preferences = getPreferences("03koffie");
+            //TODO: sort allSandwiches by float in preferences
+            Iterable<Sandwich> allSandwiches = repository.findAll();
+//            List<Sandwich>
+            
+            return allSandwiches;
+        } catch (ServiceUnavailableException e) {
+            return repository.findAll();
+        }
     }
 
     @RequestMapping(value = "/sandwiches", method = RequestMethod.POST)
@@ -65,4 +88,29 @@ public class SandwichController {
         }
     }
 
+    // why comment: for testing
+    @GetMapping("/getpreferences/{phoneNr}")
+    public SandwichPreferences getPreferences(@PathVariable String phoneNr) throws RestClientException, ServiceUnavailableException {
+        URI service = recommendationServiceUrl()
+                .map(s -> s.resolve("/recommend/" + phoneNr))
+                .orElseThrow(ServiceUnavailableException::new);
+        return restTemplate
+                .getForEntity(service, SandwichPreferences.class)
+                .getBody();
+    }
+
+    public Optional<URI> recommendationServiceUrl() {
+        try {
+            return Optional.of(new URI("http://localhost:8081"));
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+//    public Optional<URI> recommendationServiceUrl() {
+//        return discoveryClient.getInstances("recommendation")
+//                .stream()
+//                .map(si -> si.getUri())
+//                .findFirst();
+//    }
 }

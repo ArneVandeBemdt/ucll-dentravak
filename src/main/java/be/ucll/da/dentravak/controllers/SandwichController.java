@@ -69,14 +69,6 @@ public class SandwichController {
         return sandwiches;
     }
 
-    private Comparator<Sandwich> compareByRating(SandwichPreferences preferences) {
-        return (Sandwich sandwichA, Sandwich sandwichB) -> rating(preferences, sandwichB).compareTo(rating(preferences, sandwichA));
-    }
-
-    private Float rating(SandwichPreferences preferences, Sandwich sandwich) {
-        return preferences.getRatingForSandwich(sandwich.getId());
-    }
-
     @RequestMapping(value = "/sandwiches", method = RequestMethod.POST)
     public Sandwich createSandwich(@RequestBody Sandwich sandwich) {
         return repository.save(sandwich);
@@ -120,6 +112,14 @@ public class SandwichController {
     public static <T> List<T> toList(final Iterable<T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    private Comparator<Sandwich> compareByRating(SandwichPreferences preferences) {
+        return (Sandwich sandwichA, Sandwich sandwichB) -> rating(preferences, sandwichB).compareTo(rating(preferences, sandwichA));
+    }
+
+    private Float rating(SandwichPreferences preferences, Sandwich sandwich) {
+        return preferences.getRatingForSandwich(sandwich.getId());
     }
 
 //    public Optional<URI> recommendationServiceUrl() {

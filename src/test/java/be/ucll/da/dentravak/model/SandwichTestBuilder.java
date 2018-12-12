@@ -3,17 +3,24 @@ package be.ucll.da.dentravak.model;
 import be.ucll.da.dentravak.model.Sandwich;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class SandwichTestBuilder {
 
     private String name;
     private String ingredients;
     private BigDecimal price;
+    private UUID id;
 
     private SandwichTestBuilder() {}
 
     public static SandwichTestBuilder aSandwich() {
         return new SandwichTestBuilder();
+    }
+
+    public SandwichTestBuilder withId(UUID id) {
+        this.id = id;
+        return this;
     }
 
     public SandwichTestBuilder withName(String name) {
@@ -43,6 +50,7 @@ public class SandwichTestBuilder {
 
     public Sandwich build() {
         Sandwich sandwich = new Sandwich();
+        sandwich.setId(id);
         sandwich.setName(name);
         sandwich.setIngredients(ingredients);
         sandwich.setPrice(price);

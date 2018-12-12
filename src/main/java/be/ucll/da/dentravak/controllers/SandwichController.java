@@ -1,7 +1,6 @@
 package be.ucll.da.dentravak.controllers;
 
 import be.ucll.da.dentravak.model.Sandwich;
-import be.ucll.da.dentravak.model.SandwichPreference;
 import be.ucll.da.dentravak.model.SandwichPreferences;
 import be.ucll.da.dentravak.repositories.SandwichRepository;
 import org.springframework.beans.factory.annotation.Autowired;

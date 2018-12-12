@@ -53,17 +53,22 @@ public class SandwichController {
         repository.save(s3);
     }
 
-    @RequestMapping("/sandwiches")
+    @GetMapping("/sandwiches")
     public Iterable<Sandwich> sandwiches() {
+        return repository.findAll();
+    }
+
+    @GetMapping("/sandwiches/sorted/{phoneNr}")
+    public Iterable<Sandwich> sandwichesSorted(@PathVariable String phoneNr) {
         try {
-            return getSandwichesSortedByRecommendations();
+            return getSandwichesSortedByRecommendations(phoneNr);
         } catch (Exception e) {
             return repository.findAll();
         }
     }
 
-    List<Sandwich> getSandwichesSortedByRecommendations() throws ServiceUnavailableException {
-        SandwichPreferences preferences = getPreferences("03koffie");
+    List<Sandwich> getSandwichesSortedByRecommendations(String phoneNr) throws ServiceUnavailableException {
+        SandwichPreferences preferences = getPreferences(phoneNr);
         List<Sandwich> sandwiches = toList(repository.findAll());
         Collections.sort(sandwiches, compareByRating(preferences));
         return sandwiches;

@@ -1,11 +1,11 @@
 import DenTravakAbstractElement from '../travak-abstract-element.js';
-import constructApiUrl from '../utils.js';
+import API from '../travak-api.js';
 
 class DenTravakSandwichesList extends DenTravakAbstractElement {
 
     connectedCallback() {
         super.connectedCallback();
-        fetch(constructApiUrl('/sandwiches'))
+        fetch(API.constructApiUrl('/sandwiches'))
             .then(resp => resp.json())
             .then(json => this.updateSandwichesList(json));
     }

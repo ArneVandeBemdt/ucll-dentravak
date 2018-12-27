@@ -1,5 +1,6 @@
 import DenTravakAbstractElement from '../travak-abstract-element.js';
 import '../common/travak-input-text.js';
+import constructApiUrl from '../utils.js';
 
 class DenTravakEditSandwich extends DenTravakAbstractElement {
 
@@ -23,7 +24,7 @@ class DenTravakEditSandwich extends DenTravakAbstractElement {
             this.sandwich.ingredients = this.byId('ingredients').value;
             this.sandwich.price = this.byId('price').value;
 
-            fetch('http://localhost:8080/sandwiches', {
+            fetch(constructApiUrl('/sandwiches'), {
                 method: 'POST',
                 body: JSON.stringify(this.sandwich),
                 headers: {
@@ -40,7 +41,7 @@ class DenTravakEditSandwich extends DenTravakAbstractElement {
             this.sandwich.ingredients = this.byId('ingredients').value;
             this.sandwich.price = this.byId('price').value;
 
-            fetch('http://localhost:8080/sandwiches/' + this.sandwich.id, {
+            fetch(constructApiUrl('sandwiches/' + this.sandwich.id), {
                 method: 'PUT',
                 body: JSON.stringify(this.sandwich),
                 headers: {

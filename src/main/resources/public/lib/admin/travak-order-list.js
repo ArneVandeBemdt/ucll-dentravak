@@ -1,4 +1,5 @@
 import DenTravakAbstractElement from '../travak-abstract-element.js';
+import constructApiUrl from '../utils.js';
 
 class DenTravakOrderList extends DenTravakAbstractElement {
 
@@ -8,7 +9,7 @@ class DenTravakOrderList extends DenTravakAbstractElement {
 
     connectedCallback() {
         super.connectedCallback();
-        fetch('http://localhost:8080/orders')
+        fetch(constructApiUrl('/orders'))
             .then(resp => resp.json())
             .then(json => this.updateOrderList(json));
         this.initEventListeners();

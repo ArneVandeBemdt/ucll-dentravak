@@ -1,5 +1,5 @@
 import DenTravakAbstractElement from '../travak-abstract-element.js';
-import constructApiUrl from '../utils.js';
+import API from '../travak-api.js';
 
 class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
 
@@ -28,7 +28,7 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
             mobilePhoneNumber: this.byId('mobile-phone-number').value
         };
 
-        fetch(constructApiUrl('/orders'), {
+        fetch(API.constructApiUrl('/orders'), {
             method: 'POST',
             body: JSON.stringify(sandwichOrder),
             headers: {

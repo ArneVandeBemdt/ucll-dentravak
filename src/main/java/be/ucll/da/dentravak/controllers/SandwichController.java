@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost")
 public class SandwichController {
 
     private SandwichRepository repository;

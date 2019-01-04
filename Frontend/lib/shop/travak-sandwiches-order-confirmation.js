@@ -7,12 +7,27 @@ class DenTravakSandwichesOrderConfirmation extends DenTravakAbstractElement {
         this.initEventListeners();
     }
 
-    init(sandwich) {
-        this.sandwich = sandwich;
+    init(order) {
+        this.order = order;
     }
 
     initEventListeners() {
         this.byId('show-sandwich-list').addEventListener('click', e => this.app().dispatchEvent(new Event('show-sandwich-list')));
+        this.shadowRoot.querySelectorAll('button.rating').forEach(btnElement => {
+            btnElement.addEventListener('click', element => {
+                this.rateSandwich(btnElement.dataset.rating)
+            })
+        });
+    }
+
+    rateSandwich(userRating) {
+        let rating = {
+            userId = this.order.mobilePhoneNumber,
+            rateditem = this.order.sandwichId,
+            rating = userRating
+        }
+
+
     }
 
     get template() {
@@ -39,6 +54,13 @@ class DenTravakSandwichesOrderConfirmation extends DenTravakAbstractElement {
                 <h4>Bedankt!</h4>
                 <p>Wij hebben je bestelling goed ontvangen en je kan je broodje komen ophalen vanaf 11u45.</p>
                 <p>Tot zo dadelijk!</p>
+
+                <h4>Beoordeel het broodje</h4>
+                <button type="button" class="btn btn-primary bmd-btn-fab rating" data-rating="1">1</button>
+                <button type="button" class="btn btn-primary bmd-btn-fab rating" data-rating="2">2</button>
+                <button type="button" class="btn btn-primary bmd-btn-fab rating" data-rating="3">3</button>
+                <button type="button" class="btn btn-primary bmd-btn-fab rating" data-rating="4">4</button>
+                <button type="button" class="btn btn-primary bmd-btn-fab rating" data-rating="5">5</button>
             </div>
         `;
     }

@@ -34,11 +34,13 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json())
-        .then(response => console.log('Succes: ', response))
-        .catch(error => console.error('Error: ', error));
+            .then(response => {
+                console.log('Succes: ', response)
+            })
+            .catch(error => console.error('Error: ', error));
 
         // TODO handle error if POST is unsuccessful
-        this.app().dispatchEvent(new CustomEvent('order-succeeded', {detail: this.sandwich}));
+        this.app().dispatchEvent(new CustomEvent('order-succeeded', { detail: this.sandwichOrder }));
     }
 
     get template() {

@@ -22,9 +22,9 @@ class DenTravakSandwichesOrderConfirmation extends DenTravakAbstractElement {
 
     rateSandwich(userRating) {
         let rating = {
-            userId = this.order.mobilePhoneNumber,
-            rateditem = this.order.sandwichId,
-            rating = userRating
+            userId: this.order.mobilePhoneNumber,
+            rateditem: this.order.sandwichId,
+            rating: userRating
         }
 
         fetch("http://193.191.177.8:10438/reccomendation/recommend", {

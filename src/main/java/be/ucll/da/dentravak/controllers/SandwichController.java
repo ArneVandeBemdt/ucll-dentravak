@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import javax.naming.ServiceUnavailableException;
 import java.math.BigDecimal;
@@ -19,13 +20,13 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 public class SandwichController {
 
     private SandwichRepository repository;
 
-    //@Autowired
-    //private DiscoveryClient discoveryClient;
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -106,12 +107,19 @@ public class SandwichController {
                 .getBody();
     }
 
+//    public Optional<URI> recommendationServiceUrl() {
+//        try {
+//            return Optional.of(new URI("http://localhost:8081"));
+//        } catch (URISyntaxException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
     public Optional<URI> recommendationServiceUrl() {
-        try {
-            return Optional.of(new URI("http://localhost:8081"));
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        return discoveryClient.getInstances("recommendation")
+                .stream()
+                .map(si -> si.getUri())
+                .findFirst();
     }
 
     public static <T> List<T> toList(final Iterable<T> iterable) {

@@ -1,37 +1,21 @@
 import DenTravakAbstractElement from '../travak-abstract-element.js';
+import API from '../travak-api.js';
 
 class DenTravakSandwichesList extends DenTravakAbstractElement {
 
-    constructor() {
-        super('travak-admin-app')
-    }
-
     connectedCallback() {
         super.connectedCallback();
-        this.getSandwiches();
-        this.initEventListeners();
-    }
-
-    initEventListeners() {
-        this.byId('new-sandwich-btn').addEventListener('click', () => this.app().showEditSandwich());
-        this.byId('show-orders-btn').addEventListener('click', () => this.app().showOrderList());
-        this.app().addEventListener('save-succeeded', (e) => {
-            this.getSandwiches();
-        });
-    }
-
-    getSandwiches() {
-        fetch('http://localhost:8080/sandwiches')
+        fetch(API.constructApiUrl('/sandwiches'))
             .then(resp => resp.json())
             .then(json => this.updateSandwichesList(json));
     }
 
     updateSandwichesList(sandwiches) {
         let sandwichesList = this.byId('sandwiches');
-        sandwichesList.innerHTML = ``;
+        //sandwichesList.innerHTML = ``;
         sandwiches.forEach(sandwich => {
             let sandwichEl = htmlToElement(this.getSandwichTemplate(sandwich));
-            sandwichEl.addEventListener('click', () => this.app().dispatchEvent(new CustomEvent('edit-sandwich', { detail: sandwich })));
+            sandwichEl.addEventListener('click', () => this.app().dispatchEvent(new CustomEvent('checkout', {detail: sandwich})));
             sandwichesList.appendChild(sandwichEl);
         });
     }
@@ -42,21 +26,10 @@ class DenTravakSandwichesList extends DenTravakAbstractElement {
                 div.dt-sandwich-info {
                     margin-left: auto;
                 }
-                .travak-header {
-                    display: flex;
-                }
-                .travak-header div.buttons {
-                    margin-left: auto;
-                }
             </style>
             <div class="animate">
-                <div class="travak-header">
-                    <h4>Den Travak Broodjesbeheer</h4>
-                    <div class="buttons">
-                        <button id="show-orders-btn" type="button" class="btn btn-primary">Bestellingen</button>
-                        <button id="new-sandwich-btn" type="button" class="btn btn-primary">Nieuw broodje</button>
-                    </div>
-                </div>
+                <h3>Welkom bij den Travak</h3>
+                <h4>Kies je broodje</h4>
                 <div>
                 <ul id="sandwiches" class="list-group">
                 </ul>
@@ -76,7 +49,7 @@ class DenTravakSandwichesList extends DenTravakAbstractElement {
                     <p class="list-group-item-text">${sandwich.ingredients}</p>
                 </div>
                 <div class="dt-sandwich-info">
-                    <p class="list-group-item-text">${sandwich.price}</p>
+                    <p class="list-group-item-text">€ ${sandwich.price}</p>
                 </div>
             </a>
         `;

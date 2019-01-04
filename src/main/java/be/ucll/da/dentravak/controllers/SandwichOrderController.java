@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 public class SandwichOrderController {
 
     private SandwichOrderRepository repository;

@@ -36,10 +36,10 @@ class DenTravakSandwichesOrderConfirmation extends DenTravakAbstractElement {
             }
         })
         .then(response => response.json())
-        .then(resAsJson => alert('Thanks for the rating'))
         .then(response => {
             console.log('Succes: ', response)
         })
+        .then(() => alert('Thanks for the rating'))
         .catch(error => console.error('Error: ', error));
     }
 

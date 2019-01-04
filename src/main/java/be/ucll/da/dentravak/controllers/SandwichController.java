@@ -97,7 +97,7 @@ public class SandwichController {
     }
 
     // why comment: for testing
-    @GetMapping("/getpreferences/{phoneNr}")
+    @GetMapping("/getPreferences/{phoneNr}")
     public SandwichPreferences getPreferences(@PathVariable String phoneNr) throws RestClientException, ServiceUnavailableException {
         URI service = recommendationServiceUrl()
                 .map(s -> s.resolve("/recommend/" + phoneNr))
@@ -119,7 +119,8 @@ public class SandwichController {
         return discoveryClient.getInstances("recommendation")
                 .stream()
                 .map(si -> si.getUri())
-                .findFirst();
+                //.findFirst();
+                .findAny();
     }
 
     public static <T> List<T> toList(final Iterable<T> iterable) {

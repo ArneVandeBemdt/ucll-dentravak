@@ -23,7 +23,7 @@ class DenTravakSandwichesOrderConfirmation extends DenTravakAbstractElement {
     rateSandwich(userRating) {
         let rating = {
             userId: this.order.mobilePhoneNumber,
-            rateditem: this.order.sandwichId,
+            ratedItem: this.order.sandwichId,
             rating: userRating
         };
         console.log(rating);

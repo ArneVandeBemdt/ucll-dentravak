@@ -27,7 +27,15 @@ class DenTravakSandwichesOrderConfirmation extends DenTravakAbstractElement {
             rating = userRating
         }
 
-
+        fetch("http://193.191.177.8:10438/reccomendation/recommend", {
+            method: 'POST',
+            body: JSON.stringify(rating),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(resAsJson => alert('Thanks for the rating'));
     }
 
     get template() {

@@ -21,13 +21,14 @@ class DenTravakSandwichesOrderConfirmation extends DenTravakAbstractElement {
     }
 
     rateSandwich(userRating) {
-        let rating = {
-            userId: this.order.mobilePhoneNumber,
-            rateditem: this.order.sandwichId,
-            rating: userRating
-        }
 
-        fetch("http://193.191.177.8:10438/reccomendation/recommend", {
+        let rating = {}
+
+        rating.userId = this.order.mobilePhoneNumber;
+        rating.rateditem = this.order.sandwichId;
+        rating.rating = userRating;
+
+        fetch("http://193.191.177.8:10438/recomendation/recommend", {
             method: 'POST',
             body: JSON.stringify(rating),
             headers: {

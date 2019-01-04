@@ -41,7 +41,7 @@ class DenTravakSandwichesCheckout extends DenTravakAbstractElement {
             .catch(error => console.error('Error: ', error));
 
         // TODO handle error if POST is unsuccessful
-        this.app().dispatchEvent(new CustomEvent('order-succeeded', { detail: this.sandwichOrder }));
+        this.app().dispatchEvent(new CustomEvent('order-succeeded', { detail: sandwichOrder }));
     }
 
     get template() {

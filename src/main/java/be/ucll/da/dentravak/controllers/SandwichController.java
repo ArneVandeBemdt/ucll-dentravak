@@ -103,7 +103,7 @@ public class SandwichController {
                 .map(s -> s.resolve("/recommendation/recommend/" + phoneNr))
                 .orElseThrow(ServiceUnavailableException::new);
         return restTemplate
-                .getForEntity("http://localhost:8080/recommendation/recommend/" + phoneNr, SandwichPreferences.class)
+                .getForEntity("http://localhost:8081/recommend/" + phoneNr, SandwichPreferences.class)
                 .getBody();
     }
 

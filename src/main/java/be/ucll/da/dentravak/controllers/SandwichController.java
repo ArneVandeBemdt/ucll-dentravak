@@ -110,7 +110,7 @@ public class SandwichController {
     // why comment: hardcoded ip address because Consul doesn't work
     public Optional<URI> recommendationServiceUrl() {
         try {
-            return Optional.of(new URI("http://193.191.177.8:10438"));
+            return Optional.of(new URI("http://193.191.177.8:10438/recommendation"));
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

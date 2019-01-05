@@ -100,7 +100,7 @@ public class SandwichController {
     @GetMapping("/getPreferences/{phoneNr}")
     public SandwichPreferences getPreferences(@PathVariable String phoneNr) throws RestClientException, ServiceUnavailableException {
         URI service = recommendationServiceUrl()
-                .map(s -> s.resolve("/recommend/" + phoneNr))
+                .map(s -> s.resolve("/recommendation/recommend/" + phoneNr))
                 .orElseThrow(ServiceUnavailableException::new);
         return restTemplate
                 .getForEntity(service, SandwichPreferences.class)
@@ -110,7 +110,7 @@ public class SandwichController {
     // why comment: hardcoded ip address because Consul doesn't work
     public Optional<URI> recommendationServiceUrl() {
         try {
-            return Optional.of(new URI("http://193.191.177.8:10438/recommendation"));
+            return Optional.of(new URI("http://193.191.177.8:10438"));
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

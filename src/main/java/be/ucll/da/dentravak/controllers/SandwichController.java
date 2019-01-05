@@ -107,21 +107,20 @@ public class SandwichController {
                 .getBody();
     }
 
-//    public Optional<URI> recommendationServiceUrl() {
-//        try {
-//            return Optional.of(new URI("http://localhost:8081"));
-//        } catch (URISyntaxException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     public Optional<URI> recommendationServiceUrl() {
-        return discoveryClient.getInstances("recommendation")
-                .stream()
-                .map(si -> si.getUri())
-                //.findFirst();
-                .findAny();
+        try {
+            return Optional.of(new URI("http://localhost:8081"));
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+//    public Optional<URI> recommendationServiceUrl() {
+//        return discoveryClient.getInstances("recommendation")
+//                .stream()
+//                .map(si -> si.getUri())
+//                .findFirst();
+//    }
 
     public static <T> List<T> toList(final Iterable<T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false)
@@ -135,11 +134,4 @@ public class SandwichController {
     private Float rating(SandwichPreferences preferences, Sandwich sandwich) {
         return preferences.getRatingForSandwich(sandwich.getId());
     }
-
-//    public Optional<URI> recommendationServiceUrl() {
-//        return discoveryClient.getInstances("recommendation")
-//                .stream()
-//                .map(si -> si.getUri())
-//                .findFirst();
-//    }
 }

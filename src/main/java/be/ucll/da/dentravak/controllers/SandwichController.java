@@ -100,28 +100,31 @@ public class SandwichController {
     @GetMapping("/getPreferences/{phoneNr}")
     public SandwichPreferences getPreferences(@PathVariable String phoneNr) throws RestClientException, ServiceUnavailableException {
         URI service = recommendationServiceUrl()
-                .map(s -> s.resolve("/recommendation/recommend/" + phoneNr))
+                .map(s -> s.resolve("/recommend/" + phoneNr))
                 .orElseThrow(ServiceUnavailableException::new);
         return restTemplate
-                .getForEntity("http://localhost:8081/recommend/" + phoneNr, SandwichPreferences.class)
+                .getForEntity(service, SandwichPreferences.class)
                 .getBody();
     }
 
     // why comment: hardcoded ip address because Consul doesn't work
-    public Optional<URI> recommendationServiceUrl() {
+    public Optional<URI> recommendationServiceUrlHardcoded() {
         try {
-            return Optional.of(new URI("http://193.191.177.8:10438"));
+            // none of these hardcoded urls work for some reason
+            return Optional.of(new URI("http://193.191.177.8:10438/recommendation"));
+//            return Optional.of(new URI("http://localhost:8081"));
+//            return Optional.of(new URI("http://localhost:8080/recommendation"));
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
 
-//    public Optional<URI> recommendationServiceUrl() {
-//        return discoveryClient.getInstances("recommendation")
-//                .stream()
-//                .map(si -> si.getUri())
-//                .findFirst();
-//    }
+    public Optional<URI> recommendationServiceUrl() {
+        return discoveryClient.getInstances("recommendation")
+                .stream()
+                .map(si -> si.getUri())
+                .findFirst();
+    }
 
     public static <T> List<T> toList(final Iterable<T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false)
